@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Tricky Market</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
+    />
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Kal2 -->
+    <link href="css/mdb.min.css" rel="stylesheet" />
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
+    />
+    <style type="text/css">
+      html,
+      body,
+      header,
+      .carousel {
+        height: 60vh;
+      }
+
+      /* custom CSS  starts*/
+      .custom-input-svg > input {
+        display: none;
+      }
+      /* custom CSS ends  */
+      @media (max-width: 740px) {
+        html,
+        body,
+        header,
+        .carousel {
+          height: 100vh;
+        }
+      }
+
+      @media (min-width: 800px) and (max-width: 850px) {
+        html,
+        body,
+        header,
+        .carousel {
+          height: 100vh;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav
+      class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar"
+    >
+      <div class="container">
+        <!-- Brand -->
+        <a
+          class="navbar-brand waves-effect"
+          href="https://mdbootstrap.com/docs/jquery/"
+          target="_blank"
+        >
+          <strong class="blue-text">Tricky Market</strong>
+        </a>
+
+        <!-- Collapse -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Left -->
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="index.html">Product</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="index.html">Blog</a>
+            </li>
+          </ul>
+          <!-- Right -->
+          <ul class="navbar-nav mr-auto" style="margin-left: 80%">
+            <li class="nav-item">
+              <a href="" onclick="logout()" class="nav-link waves-effect"
+                >Logout</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Modal -->
+
+    <main>
+      <div class="container mt-5 pt-4">
+        <!-- Modal Upload -->
+        <div
+          class="modal fade right"
+          id="uploadModal"
+          data-backdrop="false"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalPreviewLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalPreviewLabel">
+                  Upload Blog
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form
+                  action="php/BlogUpload.php"
+                  id="uploadForm"
+                  enctype="multipart/form-data"
+                  method="post"
+                >
+                  <label for="">Upload Image</label>
+                  <!-- <i class="far fa-upload fa-3x" style="cursor: pointer;"></i> -->
+                  <input
+                    class="form-control"
+                    id="uploadFile"
+                    name="uploadFile"
+                    type="file"
+                  />
+                  <hr />
+                  <label class="form-control-static" for="">Topic:</label><br />
+                  <input
+                    type="text"
+                    name="topic"
+                    class="form-control"
+                    placeholder="Enter Topic"
+                  /><br />
+                  <label class="form-control-static" for="">Popularity:</label>
+                  <select name="popularity" class="form-control" id="">
+                    <option value="0">None</option>
+                    <option value="1">New</option>
+                    <option value="2">Trending</option>
+                  </select>
+                  <label class="form-control" for="">Description: </label><br />
+                  <textarea
+                    name="description"
+                    id=""
+                    cols="30"
+                    class="form-control rounded-0"
+                    rows="10"
+                  ></textarea>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onclick="uploadFormSubmit()"
+                  class="btn btn-primary"
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Edit -->
+        <div
+          class="modal fade right"
+          id="editModal"
+          data-backdrop="false"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalPreviewLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalPreviewLabel">
+                  Edit Blog
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form
+                  action="php/updateBlog.php"
+                  method="post"
+                  id="editForm"
+                  enctype="multipart/form-data"
+                >
+                  <div style="text-align: center">
+                    <img style="max-width: 60%" id="editImage" alt="" />
+                  </div>
+                  <div class="custom-input-svg" style="text-align: center">
+                    <label for="editFile"
+                      ><i
+                        class="far fa-edit fa-2x"
+                        id=""
+                        style="cursor: pointer"
+                      ></i
+                    ></label>
+                    <input
+                      id="editFile"
+                      name="editFile"
+                      onchange="changeImageWhileUploading(event)"
+                      type="file"
+                    />
+                  </div>
+                  <hr />
+                  <label class="form-control-static" for="">Topic:</label><br />
+                  <input
+                    type="text"
+                    name="editTopic"
+                    id="editTopic"
+                    class="form-control"
+                    placeholder="Enter Topic"
+                  /><br />
+                  <label class="form-control-static" for="">Popularity:</label>
+                  <select
+                    name="editPopularity"
+                    id="editPopularity"
+                    class="form-control"
+                    id=""
+                  >
+                    <option value="0">None</option>
+                    <option value="1">New</option>
+                    <option value="2">Trending</option>
+                  </select>
+                  <input type="hidden" name="id" id="blogId" />
+                  <label for="">Description: </label><br />
+                  <textarea
+                    name="editDescription"
+                    id="editDescription"
+                    cols="30"
+                    class="form-control rounded-0"
+                    rows="10"
+                  ></textarea>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onclick="updateBlog()"
+                  class="btn btn-primary"
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Section: Products v.3-->
+        <section class="text-center mb-4">
+          <!--Grid row-->
+          <i
+            class="far fa-plus-square fa-3x"
+            data-toggle="modal"
+            data-target="#uploadModal"
+            style="float: right; cursor: pointer"
+          ></i
+          ><br /><br />
+          <hr />
+          <div id="addBlog"></div>
+          <!--Grid row-->
+        </section>
+        <!--Section: Products v.3-->
+      </div>
+    </main>
+    <!--Main layout-->
+
+    <!--Footer-->
+    <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+      <!--Call to action-->
+
+      <!--/.Call to action-->
+
+      <hr class="my-4" />
+
+      <!-- Social icons -->
+      <div class="pb-4">
+        <a href="https://www.facebook.com/mdbootstrap" target="_blank">
+          <i class="fab fa-facebook-f mr-3"></i>
+        </a>
+
+        <a href="https://twitter.com/MDBootstrap" target="_blank">
+          <i class="fab fa-twitter mr-3"></i>
+        </a>
+
+        <a href="https://www.youtube.com/watch?v=7MUISDJ5ZZ4" target="_blank">
+          <i class="fab fa-youtube mr-3"></i>
+        </a>
+
+        <a
+          href="https://plus.google.com/u/0/b/107863090883699620484"
+          target="_blank"
+        >
+          <i class="fab fa-google-plus-g mr-3"></i>
+        </a>
+
+        <a href="https://dribbble.com/mdbootstrap" target="_blank">
+          <i class="fab fa-dribbble mr-3"></i>
+        </a>
+
+        <a href="https://pinterest.com/mdbootstrap" target="_blank">
+          <i class="fab fa-pinterest mr-3"></i>
+        </a>
+
+        <a
+          href="https://github.com/mdbootstrap/bootstrap-material-design"
+          target="_blank"
+        >
+          <i class="fab fa-github mr-3"></i>
+        </a>
+
+        <a href="http://codepen.io/mdbootstrap/" target="_blank">
+          <i class="fab fa-codepen mr-3"></i>
+        </a>
+      </div>
+      <!-- Social icons -->
+
+      <!--Copyright-->
+      <div class="footer-copyright py-3">
+        © 2019 Copyright:
+        <a href="https://trickymarket.in/" target="_blank"> trickymarket.in </a>
+      </div>
+      <!--/.Copyright-->
+    </footer>
+    <!--/.Footer-->
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+
+    <!-- Initializations -->
+    <script type="text/javascript">
+      // Animations initialization
+      new WOW().init();
+    </script>
+    <!-- custom jquery  starts -->
+    <script type="text/javascript">
+      $(document).ready(function () {
+        if (localStorage.getItem("logged") === "1") {
+          toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: false,
+            progressBar: false,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "5000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+          };
+          var success = getUrlParameter("success");
+          //TODO toaster
+          console.log(success);
+          if (success == 1) {
+            toastr.success("Blog Added successfully");
+            window.history.pushState("", "", "/admin.html");
+          } else if (success == 2) {
+            toastr.success("Blog Updated successfully");
+            window.history.pushState("", "", "/admin.html");
+          }
+          //Load Blogs
+          console.log("loading blogs");
+          $.ajax({
+            url: "php/loadBlogs.php",
+            method: "POST",
+            dataType: "JSON",
+            success: (blogs) => {
+              blogs.forEach((blog) => {
+                console.log(blog);
+                var $id = addEditButton(blog[0]);
+                var $img = addImg(blog[1]);
+                var $topic = addTopic(blog[2]);
+                // var $popu = addPopularity(blog[3]);
+                var $description = addDescription(blog[4]);
+                // $("<div>", {"class": "row wow fadeIn"});
+                // .append($("<div>", {"class": "card", "style": "width:100%;"}));
+                // .append($("<div>", {"class": "col-md-4 mb-4"}));
+                // var $temp = $img.after($description).after($id);
+                var $card = $("<div class='row'/>").append(
+                  $img,
+                  $topic,
+                  // $popu,
+                  $description,
+                  $id
+                );
+                $card = $("<div class='card' style='width:100%;'/>").append(
+                  $card
+                );
+                $card = $("<div class='row wow fadeIn'/>").append($card);
+                // var $card1 = $("<div class='row wow fadeIn'> <div class='card' style='width:100%;'> <div class='col-md-4 mb-4'>" + $temp + "</div></div></div>");
+                $("#addBlog").append($card);
+              });
+            },
+          });
+        } else {
+          window.location.href = "/login.html";
+        }
+      });
+
+      function changeImageWhileUploading(event) {
+        console.log(event.target.files[0].name);
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $("#editImage").attr("src", e.target.result);
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      }
+
+      function updateBlog() {
+        $("#editForm").submit();
+      }
+      function addImg(val) {
+        $img = $("<div>", { class: "col-md-3 mb-4" });
+        $img.append(
+          `<img style='max-width: 100%' src=img/uploads/` + val + ` alt='' />`
+        );
+        return $img;
+      }
+
+      function addPopularity(val) {
+        var popular = "";
+        var color = "";
+        val = parseInt(val);
+        switch (val) {
+          case 1:
+            popular = "New";
+            color = "blue";
+            break;
+          case 3:
+            popular = "Trending";
+            color = "red";
+            break;
+          default:
+            popular = "None";
+            break;
+        }
+        console.log("val : ", val, typeof val);
+        if (val > 0) {
+          var $descrip = $("<div>", { class: "col-md-3 mb-1" });
+          var classStr = "badge " + color + " mr-1";
+          var $temp = $(
+            "<a> <span class = '" + classStr + "'>" + popular + "</span></a>"
+          );
+          $descrip = $descrip.append($temp);
+          return $descrip;
+        } else {
+          return $("<div>");
+        }
+      }
+
+      function addTopic(val) {
+        var $descrip = $("<div>", { class: "col-md-3 mb4 mt-5 pt-4" });
+        var $temp = $("<strong>").append(
+          val.length > 30 ? val.slice(0, 30) + "...." : val
+        );
+        $descrip = $descrip.append($temp);
+        return $descrip;
+      }
+
+      function addDescription(val) {
+        var $descrip = $("<div>", { class: "col-md-3 mb4 mt-5 pt-4" });
+        $descrip.append(val.length > 30 ? val.slice(0, 30) + "...." : val);
+        return $descrip;
+      }
+
+      function addEditButton(val) {
+        var $edit = $("<div>", { class: "col-md-3 mb-4 mt-5 pt-4" });
+        $edit.append(
+          "<a class='btn btn-primary' onclick='getPerticularBlog(" +
+            val +
+            ")' data-toggle='modal' data-target='#editModal'>Edit</a>"
+        );
+        return $edit;
+      }
+
+      function getPerticularBlog(event) {
+        console.log(event);
+        $.ajax({
+          url: "php/loadEachBlog.php",
+          method: "POST",
+          dataType: "JSON",
+          data: { id: event },
+          success: (blog) => {
+            // console.log(blog.description);
+            $("#editImage").attr("src", "img/uploads/" + blog.image);
+            $("#editDescription").val(blog.description);
+            $("#blogId").val(blog.id);
+            $("#editTopic").val(blog.topic);
+            $("#editPopularity").val(blog.popularity);
+          },
+        });
+      }
+      function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+          sURLVariables = sPageURL.split("&"),
+          sParameterName,
+          i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split("=");
+
+          if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined
+              ? true
+              : decodeURIComponent(sParameterName[1]);
+          }
+        }
+      }
+      function uploadFormSubmit() {
+        $("#uploadForm").submit();
+      }
+
+      function logout() {
+        localStorage.removeItem("logged");
+      }
+    </script>
+    <!-- ends  -->
+  </body>
+</html>
